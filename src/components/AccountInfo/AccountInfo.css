@@ -1,0 +1,106 @@
+.account-info {
+  max-width: 1200px;
+  margin: 74px auto 0;
+}
+
+@media screen and (max-width: 576px) {
+  .account-info {
+    margin-top: 70px;
+  }
+}
+
+.account-info__hello {
+  margin: 0;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+}
+
+.account-info__fields {
+  max-width: 410px;
+  margin: 106px auto 0;
+  list-style: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 576px) {
+  .account-info__fields {
+    max-width: 260px;
+    margin-top: 63px;
+  }
+}
+
+.account-info__field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+.account-info__field:last-of-type {
+  border-bottom: none;
+}
+.account-info__key {
+  margin: 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.account-info__value {
+  margin: 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  text-align: right;
+  color: inherit;
+}
+
+.account-info__button {
+  max-width: 410px;
+  width: 100%;
+  display: block;
+  margin: 16px auto 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.account-info__buttons {
+  margin-top: 220px;
+}
+
+.account-info__button_type_logout {
+  color: #ee3465;
+}
+
+.account-info__input-error {
+  margin: 0;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+
+  color: #ff004c;
+}
+
+.account-info__button_type_save {
+  background: var(--accent-color);
+  border-radius: 3px;
+  padding: 13px 0;
+  color: var(--alt-text);
+}
+
+@media screen and (max-width: 576px) {
+  .account-info__button {
+    max-width: 260px;
+  }
+}
