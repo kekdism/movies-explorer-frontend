@@ -2,6 +2,12 @@
   background-color: var(--secondary--bg);
 }
 
+@media screen and (max-width: 550px) {
+  .tech {
+    background-color: var(--primary-bg);
+  }
+}
+
 .tech__container {
   max-width: 1140px;
   margin: 0 auto;

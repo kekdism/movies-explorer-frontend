@@ -1,26 +1,26 @@
-import React from 'react';
-import './Title.css';
+import React from "react";
+import "./Title.css";
 
 const Title = () => {
   return (
-    <section className='title'>
-      <h1 className='title__text'>
+    <section className="title">
+      <h1 className="title__text">
         Учебный проект студента факультета Веб-разработки.
       </h1>
       <nav>
-        <ul className='title__nav'>
+        <ul className="title__nav">
           <li>
-            <a href='#' className='title__link'>
+            <a href="#about" className="title__link">
               О проекте
             </a>
           </li>
           <li>
-            <a href='#' className='title__link'>
+            <a href="#tech" className="title__link">
               Технологии
             </a>
           </li>
           <li>
-            <a href='#' className='title__link'>
+            <a href="#student" className="title__link">
               Студент
             </a>
           </li>

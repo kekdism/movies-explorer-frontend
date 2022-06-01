@@ -53,6 +53,7 @@
 
 @media screen and (max-width: 576px) {
   .search__bar {
+    border-right: none;
     background-color: white;
     box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
     border-radius: 9px;

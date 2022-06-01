@@ -18,9 +18,6 @@ const Movies = () => {
         <Movie />
         <Movie />
       </div>
-      <button className='movies__more' type='button'>
-        Ещё
-      </button>
     </section>
   );
 };
