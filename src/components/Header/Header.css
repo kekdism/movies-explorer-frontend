@@ -1,0 +1,124 @@
+.header {
+  position: relative;
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 30px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 550px) {
+  .header {
+    padding: 18px 14px;
+  }
+}
+
+.header__logged {
+  margin-left: 44px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .header__logged {
+    display: none;
+  }
+}
+
+.header__menu-button {
+  display: none;
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  background-image: url('../../assets/menu-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 0.4s;
+}
+
+@media screen and (max-width: 768px) {
+  .header__menu-button {
+    display: block;
+  }
+}
+
+.header__unlogged {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header__nav {
+  margin: 0;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.header__auth {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .header__auth {
+    gap: 14px;
+  }
+}
+
+.header__link {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.header__link_active {
+  font-weight: 500;
+}
+
+.header__signup {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .header__signup {
+    font-size: 10px;
+    line-height: 16px;
+  }
+}
+
+.header__signin {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration: none;
+  color: var(--alt-text);
+  background-color: var(--accent-color);
+  padding: 9px 20px;
+  border-radius: 3px;
+}
+
+@media screen and (max-width: 768px) {
+  .header__signin {
+    font-size: 10px;
+    line-height: 16px;
+  }
+}

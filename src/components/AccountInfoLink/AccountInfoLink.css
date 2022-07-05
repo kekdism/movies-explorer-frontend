@@ -1,0 +1,25 @@
+.info-link {
+  text-decoration: none;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(170, 170, 170, 0.2);
+  box-sizing: border-box;
+  border-radius: 50px;
+  padding: 5px 10px;
+  color: inherit;
+}
+
+.info-link__text {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.info-link__text::before {
+  content: url('../../assets/acc-icon.svg');
+  display: inline-block;
+  margin-right: 7px;
+}

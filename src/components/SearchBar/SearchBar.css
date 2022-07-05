@@ -1,0 +1,124 @@
+.search {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+@media screen and (max-width: 576px) {
+  .search {
+    padding: 0 10px;
+  }
+}
+
+.search::after {
+  width: 100%;
+  height: 1px;
+  content: '';
+  display: block;
+  margin: 69px 0 10px 0;
+  background-color: #e8e8e8;
+}
+
+@media screen and (max-width: 576px) {
+  .search::after {
+    margin: 0;
+  }
+}
+
+.search__box {
+  display: flex;
+  background-color: white;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+  border-radius: 9px;
+}
+
+@media screen and (max-width: 576px) {
+  .search__box {
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: none;
+  }
+}
+
+.search__bar {
+  width: 100%;
+  border-right: 1px #cbcbcb solid;
+  margin: 19px 0 19px 19px;
+  padding-right: 19px;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 576px) {
+  .search__bar {
+    border-right: none;
+    background-color: white;
+    box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
+    border-radius: 9px;
+    margin: 0;
+    padding: 19px;
+    width: inherit;
+  }
+}
+
+.search__icon {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+@media screen and (max-width: 576px) {
+  .search__icon {
+    display: none;
+  }
+}
+
+.search__input {
+  padding: 0;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  line-height: 20px;
+  color: inherit;
+}
+
+.search__input::placeholder {
+  color: var(--secondary--text);
+}
+
+.search__input:focus {
+  outline: none;
+}
+
+.search__find {
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.search__filter {
+  display: flex;
+  padding: 0 30px;
+  align-items: center;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  gap: 14px;
+}
+
+@media screen and (max-width: 576px) {
+  .search__filter {
+    margin: 45px 0;
+    padding: 0;
+  }
+}
+
+.search__checkbox {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}

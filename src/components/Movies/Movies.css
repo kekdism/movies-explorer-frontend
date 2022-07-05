@@ -1,0 +1,21 @@
+.movies {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+@media screen and (max-width: 576px) {
+  .movies {
+    padding: 0 10px;
+  }
+}
+
+.movies__container {
+  margin: 70px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 364px));
+  gap: 30px 24px;
+  justify-content: center;
+}
+
+
