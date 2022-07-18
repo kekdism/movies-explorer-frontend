@@ -3,17 +3,18 @@
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .movie__header {
   display: flex;
-  align-items: center;
+  flex: 1;
   padding: 14px;
 }
 
 .movie__info {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .movie__title {
@@ -21,6 +22,7 @@
   font-size: 15px;
   line-height: 18px;
   margin: 0 0 9px 0;
+  flex: 1;
 }
 
 .movie__time {
@@ -32,6 +34,7 @@
 }
 
 .movie__save {
+  align-self: center;
   width: 30px;
   height: 30px;
   border: none;

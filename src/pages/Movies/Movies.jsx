@@ -1,16 +1,141 @@
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/Header/Header';
-import Movies from '../../components/Movies/Movies';
-import SearchBar from '../../components/SearchBar/SearchBar';
-import MoreButton from '../../components/MoreButton/MoreButton';
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import Movies from "../../components/Movies/Movies";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import MoreButton from "../../components/MoreButton/MoreButton";
+
+import MoviesApi from "../../utils/MoviesApi";
+import { useEffect } from "react";
+import { useState } from "react";
+import { checkNames, SHORTS_DURATION } from "../../utils/constants";
+import { useRef } from "react";
+import MainApi from "../../utils/MainApi";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/authContext";
 
 const MoviesPage = () => {
+  const { currentUser } = useContext(AuthContext);
+  const [searchText, setSearchText] = useState("");
+  const [isShortsIncluded, setIsShortsIncluded] = useState(true);
+  const [foundMovies, setFoundMovies] = useState([]);
+  const [showedMovies, setShowedMovies] = useState(0);
+  const cardRenderSettings = useRef({ default: 12, row: 3 });
+
+  const addCards = () => {
+    if (showedMovies - cardRenderSettings.current.default < 0) {
+      return (
+        cardRenderSettings.current.default +
+        cardRenderSettings.current.row -
+        showedMovies
+      );
+    }
+    if (
+      (showedMovies - cardRenderSettings.current.default) %
+        cardRenderSettings.current.row ===
+      0
+    ) {
+      return cardRenderSettings.current.row;
+    }
+    const extraCards =
+      showedMovies -
+      cardRenderSettings.current.default -
+      Math.trunc(
+        (showedMovies - cardRenderSettings.current.default) /
+          cardRenderSettings.current.row
+      ) *
+        cardRenderSettings.current.row;
+    return cardRenderSettings.current.row * 2 - extraCards;
+  };
+
+  const handleMore = () => {
+    setShowedMovies((s) => (s += addCards));
+  };
+
+  const handleSearchTextChange = (e) => {
+    const { value } = e.target;
+    setSearchText(value);
+  };
+
+  const handleShortsChange = () => {
+    setIsShortsIncluded((s) => !s);
+  };
+
+  const handleSearch = async (e) => {
+    try {
+      e.preventDefault();
+      const movies = await MoviesApi.getMovies();
+      const filteredMovies = movies.filter((movie) => {
+        const { nameRU, nameEN, duration } = movie;
+        const isValidName = checkNames([nameRU, nameEN], searchText);
+        const isValidDuration = !isShortsIncluded
+          ? duration > SHORTS_DURATION
+          : true;
+        return isValidDuration && isValidName;
+      });
+      localStorage.setItem(
+        "lastSearch",
+        JSON.stringify({
+          foundMovies: filteredMovies,
+          searchText,
+          isShortsIncluded,
+        })
+      );
+      setFoundMovies(filteredMovies);
+      setShowedMovies(cardRenderSettings.current.default);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleMovieSave = async (movie) => {
+    console.log(await MainApi.saveMovie(movie, currentUser.token));
+  };
+
+  const handleDeleteMovie = async (id) => {
+    return await MainApi.deleteMovie(id, currentUser.token);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("lastSearch")) {
+      const { foundMovies, searchText, isShortsIncluded } = JSON.parse(
+        localStorage.getItem("lastSearch")
+      );
+      setFoundMovies(foundMovies);
+      setSearchText(searchText);
+      setIsShortsIncluded(isShortsIncluded);
+      setShowedMovies(cardRenderSettings.current.default);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      console.log(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
   return (
     <>
       <Header />
-      <SearchBar />
-      <Movies />
-      <MoreButton />
+      <SearchBar
+        searchText={searchText}
+        isShortsIncluded={isShortsIncluded}
+        changeSearchText={handleSearchTextChange}
+        changeShortsIncluded={handleShortsChange}
+        onSearch={handleSearch}
+      />
+      <Movies
+        movieList={foundMovies.slice(0, showedMovies)}
+        onSave={handleMovieSave}
+        onDelete={handleDeleteMovie}
+      />
+      {foundMovies.length > showedMovies && (
+        <MoreButton handleClick={handleMore} />
+      )}
       <Footer />
     </>
   );

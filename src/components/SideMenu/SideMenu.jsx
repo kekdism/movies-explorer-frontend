@@ -11,9 +11,10 @@ const SideMenu = ({ isOpen, handleClose }) => {
           <li>
             <NavLink
               to='/'
-              className={(isActive) =>
+              className={({isActive}) =>
                 `menu__link ${isActive && 'menu__link_active'}`
               }
+              
             >
               Главная
             </NavLink>
@@ -21,7 +22,7 @@ const SideMenu = ({ isOpen, handleClose }) => {
           <li>
             <NavLink
               to='/movies'
-              className={(isActive) =>
+              className={({isActive}) =>
                 `menu__link ${isActive && 'menu__link_active'}`
               }
             >
@@ -30,8 +31,8 @@ const SideMenu = ({ isOpen, handleClose }) => {
           </li>
           <li>
             <NavLink
-              to='/my-movies'
-              className={(isActive) =>
+              to='/saved-movies'
+              className={({isActive}) =>
                 `menu__link ${isActive && 'menu__link_active'}`
               }
             >

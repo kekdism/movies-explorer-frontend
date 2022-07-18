@@ -99,6 +99,10 @@
   color: var(--alt-text);
 }
 
+.account-info__button_type_save:disabled {
+  background-color: lightgrey;
+}
+
 @media screen and (max-width: 576px) {
   .account-info__button {
     max-width: 260px;

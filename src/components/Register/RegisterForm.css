@@ -47,8 +47,14 @@
   width: 100%;
   color: var(--alt-text);
   background-color: var(--accent-color);
-
   border-radius: 3px;
+}
+
+.register__submit:disabled {
+  background-color: lightgrey;
+}
+.register__submit:disabled:hover {
+  opacity: 1;
 }
 
 .register__redirect {
