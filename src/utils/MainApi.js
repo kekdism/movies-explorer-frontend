@@ -72,7 +72,7 @@ class MainApi {
   }
 
   async deleteMovie(id, token) {
-    const response = await fetch(`${this.BASE_URL}/${id}`, {
+    const response = await fetch(`${this.BASE_URL}/movies/${id}`, {
       method: "DELETE",
       headers: this.setHeaders(token),
     });

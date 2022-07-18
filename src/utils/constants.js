@@ -17,3 +17,13 @@ export const checkNames = (names, phrase) => {
     return n.toLowerCase().includes(phrase.toLowerCase());
   });
 };
+
+export const debounce = (f, ms) => {
+  let timer;
+  return (e) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(f, ms, e);
+  };
+};

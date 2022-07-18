@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { formatDuration, MOVIE_URL } from "../../utils/constants";
-import MainApi from "../../utils/MainApi";
 import DeleteMovieIcon from "../Icons/DeleteMovieIcon";
 import SaveIcon from "../Icons/SaveIcon";
 import "./Movie.css";
 
-const Movie = ({ movie, onSave, onDelete }) => {
+const Movie = ({ movie, onSave, onDelete, isSaved = false }) => {
   const { nameRU, duration, image } = movie;
   const { name, url } = image;
-  const [isSaved, setIsSaved] = useState(false);
   const { pathname } = useLocation();
 
   const handleSave = async () => {
@@ -41,7 +39,8 @@ const Movie = ({ movie, onSave, onDelete }) => {
           nameRU,
           nameEN,
         });
-        setIsSaved(true);
+      } else {
+        await onDelete(movie.id || movie.movieId);
       }
     } catch (err) {
       console.error(err);

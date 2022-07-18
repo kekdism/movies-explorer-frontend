@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useFormWithValidation } from "../../utils/hooks/useFormWithValidation";
 import MainApi from "../../utils/MainApi";
 import { useContext } from "react";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../utils/contexts";
 
 const RegisterForm = () => {
   const { setCurrentUser } = useContext(AuthContext);

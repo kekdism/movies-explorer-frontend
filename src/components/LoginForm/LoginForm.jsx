@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormWithValidation } from "../../utils/hooks/useFormWithValidation";
 import { useContext, useState } from "react";
 import MainApi from "../../utils/MainApi";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../utils/contexts";
 
 const LoginForm = () => {
   const navigation = useNavigate();

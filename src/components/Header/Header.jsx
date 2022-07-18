@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../utils/contexts";
 import AccountInfoLink from "../AccountInfoLink/AccountInfoLink";
 import LogoIcon from "../Icons/LogoIcon";
 import SideMenu from "../SideMenu/SideMenu";

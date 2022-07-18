@@ -5,26 +5,30 @@ import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Movies from "../../components/Movies/Movies";
 import SearchBar from "../../components/SearchBar/SearchBar";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext, SavedMovies } from "../../utils/contexts";
 import { checkNames, SHORTS_DURATION } from "../../utils/constants";
 import MainApi from "../../utils/MainApi";
 
 const SavedMoviesPage = () => {
   const { currentUser } = useContext(AuthContext);
 
-  const [userMovies, setUserMovies] = useState([]);
+  const { savedMovies, setSavedMovies } = useContext(SavedMovies);
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [isShortsIncluded, setIsShortsIncluded] = useState(true);
 
   useEffect(() => {
-    MainApi.getMovies(currentUser?.token)
-      .then((movies) => {
-        setUserMovies(movies);
-        setFilteredMovies(movies);
-      })
-      .catch(console.error);
-  }, [currentUser]);
+    if (!savedMovies) {
+      MainApi.getMovies(currentUser?.token)
+        .then((movies) => {
+          setSavedMovies(movies);
+          setFilteredMovies(movies);
+        })
+        .catch(console.error);
+    } else {
+      setFilteredMovies(savedMovies);
+    }
+  }, [currentUser, setSavedMovies, savedMovies]);
 
   const handleShortsChange = () => {
     setIsShortsIncluded((s) => !s);
@@ -35,8 +39,9 @@ const SavedMoviesPage = () => {
     setSearchText(value);
   };
 
-  const handleSearch = () => {
-    const filtered = userMovies.filter((movie) => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const filtered = savedMovies.filter((movie) => {
       const { nameRU, nameEN, duration } = movie;
       const isValidName = checkNames([nameRU, nameEN], searchText);
       const isValidDuration = !isShortsIncluded
@@ -45,6 +50,17 @@ const SavedMoviesPage = () => {
       return isValidDuration && isValidName;
     });
     setFilteredMovies(filtered);
+  };
+
+  const handleDeleteMovie = async (id) => {
+    try {
+      console.log(id);
+      const movie = savedMovies.find((m) => m.movieId === id);
+      await MainApi.deleteMovie(movie._id, currentUser.token);
+      setSavedMovies(savedMovies.filter((m) => m !== movie));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -57,7 +73,7 @@ const SavedMoviesPage = () => {
         changeShortsIncluded={handleShortsChange}
         onSearch={handleSearch}
       />
-      <Movies movieList={filteredMovies} />
+      <Movies movieList={filteredMovies} onDelete={handleDeleteMovie} />
       <Footer />
     </>
   );

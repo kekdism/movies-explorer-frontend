@@ -7,13 +7,14 @@ import MoreButton from "../../components/MoreButton/MoreButton";
 import MoviesApi from "../../utils/MoviesApi";
 import { useEffect } from "react";
 import { useState } from "react";
-import { checkNames, SHORTS_DURATION } from "../../utils/constants";
+import { checkNames, debounce, SHORTS_DURATION } from "../../utils/constants";
 import { useRef } from "react";
 import MainApi from "../../utils/MainApi";
 import { useContext } from "react";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext, SavedMovies } from "../../utils/contexts";
 
 const MoviesPage = () => {
+  const { savedMovies, setSavedMovies } = useContext(SavedMovies);
   const { currentUser } = useContext(AuthContext);
   const [searchText, setSearchText] = useState("");
   const [isShortsIncluded, setIsShortsIncluded] = useState(true);
@@ -48,7 +49,7 @@ const MoviesPage = () => {
   };
 
   const handleMore = () => {
-    setShowedMovies((s) => (s += addCards));
+    setShowedMovies((s) => (s += addCards()));
   };
 
   const handleSearchTextChange = (e) => {
@@ -88,11 +89,22 @@ const MoviesPage = () => {
   };
 
   const handleMovieSave = async (movie) => {
-    console.log(await MainApi.saveMovie(movie, currentUser.token));
+    try {
+      const newSave = await MainApi.saveMovie(movie, currentUser.token);
+      setSavedMovies([...savedMovies, newSave]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleDeleteMovie = async (id) => {
-    return await MainApi.deleteMovie(id, currentUser.token);
+    try {
+      const movie = savedMovies.find((m) => m.movieId === id);
+      await MainApi.deleteMovie(movie._id, currentUser.token);
+      setSavedMovies(savedMovies.filter((m) => m !== movie));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
@@ -108,14 +120,30 @@ const MoviesPage = () => {
   }, []);
 
   useEffect(() => {
-    const handleWindowResize = () => {
-      console.log(window.innerWidth);
-    };
+    if (!savedMovies) {
+      MainApi.getMovies(currentUser?.token)
+        .then(setSavedMovies)
+        .catch(console.error);
+    }
+  }, [currentUser, setSavedMovies, savedMovies]);
 
-    window.addEventListener("resize", handleWindowResize);
+  useEffect(() => {
+    const handleWindowResize = () => {
+      if (window.innerWidth >= 1280) {
+        cardRenderSettings.current = { default: 12, row: 3 };
+      } else if (window.innerWidth >= 768) {
+        cardRenderSettings.current = { default: 8, row: 2 };
+      } else if (window.innerWidth <= 480) {
+        cardRenderSettings.current = { default: 5, row: 2 };
+      }
+      console.log(cardRenderSettings.current);
+    };
+    handleWindowResize();
+    const debouncedResize = debounce(handleWindowResize, 500);
+    window.addEventListener("resize", debouncedResize);
 
     return () => {
-      window.removeEventListener("resize", handleWindowResize);
+      window.removeEventListener("resize", debouncedResize);
     };
   }, []);
   return (

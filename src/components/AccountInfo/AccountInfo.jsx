@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../utils/authContext";
+import { AuthContext } from "../../utils/contexts";
 import { useFormWithValidation } from "../../utils/hooks/useFormWithValidation";
 import MainApi from "../../utils/MainApi";
 import "./AccountInfo.css";
