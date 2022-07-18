@@ -1,3 +1,8 @@
+# Дипломный проект Я.Практикум
+
+[Фронт](https://movies-kekdism.nomoredomains.work)
+[Бэк](https://api.movies-kekdism.nomoredomains.work)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
