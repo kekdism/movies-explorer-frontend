@@ -136,7 +136,6 @@ const MoviesPage = () => {
       } else if (window.innerWidth <= 480) {
         cardRenderSettings.current = { default: 5, row: 2 };
       }
-      console.log(cardRenderSettings.current);
     };
     handleWindowResize();
     const debouncedResize = debounce(handleWindowResize, 500);

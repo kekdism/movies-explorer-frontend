@@ -1,5 +1,6 @@
 export const { MOVIE_URL = "https://api.nomoreparties.co" } = process.env;
-export const { BASE_URL = "http://localhost:5050" } = process.env;
+export const { REACT_APP_BASE_URL: BASE_URL = "http://localhost:5050" } =
+  process.env;
 
 export const SHORTS_DURATION = 40;
 

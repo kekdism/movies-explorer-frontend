@@ -20,6 +20,7 @@ class MainApi {
     return await response.json();
   }
   async register(data) {
+    console.log(`${this.BASE_URL}/signup`);
     const response = await fetch(`${this.BASE_URL}/signup`, {
       method: "POST",
       headers: this.setHeaders(),
