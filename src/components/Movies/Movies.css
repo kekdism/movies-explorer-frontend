@@ -17,5 +17,6 @@
   gap: 30px 24px;
   justify-content: center;
 }
-
-
+.movies__nothing {
+  justify-self: center;
+}

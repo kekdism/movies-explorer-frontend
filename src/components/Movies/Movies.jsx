@@ -8,17 +8,21 @@ const Movies = ({ movieList, onSave, onDelete }) => {
   return (
     <section className="movies">
       <div className="movies__container">
-        {movieList.map((movie) => (
-          <Movie
-            key={movie?.id ? movie.id : movie._id}
-            movie={movie}
-            onSave={onSave}
-            onDelete={onDelete}
-            isSaved={savedMovies?.some(
-              (m) => m.movieId === movie.id || m.movieId === movie.movieId
-            )}
-          />
-        ))}
+        {movieList.length > 0 ? (
+          movieList.map((movie) => (
+            <Movie
+              key={movie?.id ? movie.id : movie._id}
+              movie={movie}
+              onSave={onSave}
+              onDelete={onDelete}
+              isSaved={savedMovies?.some(
+                (m) => m.movieId === movie.id || m.movieId === movie.movieId
+              )}
+            />
+          ))
+        ) : (
+          <p className="movies__nothing">Ничего не найдено</p>
+        )}
       </div>
     </section>
   );

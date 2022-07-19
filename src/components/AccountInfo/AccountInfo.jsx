@@ -12,7 +12,8 @@ const AccountInfo = () => {
 
   const { currentUser, setCurrentUser } = useContext(AuthContext);
   const { values, setValues, handleChange, isValid } = useFormWithValidation();
-
+  const isSame =
+    values?.name === currentUser?.name && values?.email === currentUser?.email;
   const [isEditing, setIsEditing] = useState(false);
   const [apiError, setApiError] = useState("");
 
@@ -101,7 +102,7 @@ const AccountInfo = () => {
             <button
               type="button"
               className="account-info__button account-info__button_type_save"
-              disabled={!isValid}
+              disabled={!(isValid && !isSame)}
               onClick={handleUserInfoUpdate}
             >
               Сохранить

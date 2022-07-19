@@ -46,7 +46,10 @@ const RegisterForm = () => {
               type="text"
               required
               pattern="[A-Za-zА-Яа-я -]{2,30}"
-              error={errors?.name}
+              error={
+                errors?.name &&
+                "Имя должно быть от 2 до 30 символов и содержать только латиницу, кириллицу, пробел или дефис."
+              }
               value={values?.name || ""}
               onChange={handleChange}
             />

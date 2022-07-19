@@ -57,21 +57,25 @@ const MoviesPage = () => {
     setSearchText(value);
   };
 
-  const handleShortsChange =  async () => {
+  const handleShortsChange = () => {
     setIsShortsIncluded((s) => !s);
-    await handleSearch();
+    localStorage.setItem(
+      "lastSearch",
+      JSON.stringify({
+        foundMovies,
+        searchText,
+        isShortsIncluded: !isShortsIncluded,
+      })
+    );
   };
 
   const handleSearch = async () => {
     try {
       const movies = await MoviesApi.getMovies();
       const filteredMovies = movies.filter((movie) => {
-        const { nameRU, nameEN, duration } = movie;
+        const { nameRU, nameEN } = movie;
         const isValidName = checkNames([nameRU, nameEN], searchText);
-        const isValidDuration = !isShortsIncluded
-          ? duration > SHORTS_DURATION
-          : true;
-        return isValidDuration && isValidName;
+        return isValidName;
       });
       localStorage.setItem(
         "lastSearch",
@@ -91,8 +95,8 @@ const MoviesPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await handleSearch();
-  }
-  
+  };
+
   const handleMovieSave = async (movie) => {
     try {
       const newSave = await MainApi.saveMovie(movie, currentUser.token);
@@ -158,16 +162,20 @@ const MoviesPage = () => {
         isShortsIncluded={isShortsIncluded}
         changeSearchText={handleSearchTextChange}
         changeShortsIncluded={handleShortsChange}
-        onSearch={handleSearch}
+        onSearch={handleSubmit}
       />
       <Movies
-        movieList={foundMovies.slice(0, showedMovies)}
+        movieList={foundMovies
+          .filter((m) =>
+            isShortsIncluded ? m.duration <= SHORTS_DURATION : true
+          )
+          .slice(0, showedMovies)}
         onSave={handleMovieSave}
         onDelete={handleDeleteMovie}
       />
-      {foundMovies.length > showedMovies && (
-        <MoreButton handleClick={handleMore} />
-      )}
+      {foundMovies.filter((m) =>
+        isShortsIncluded ? m.duration <= SHORTS_DURATION : true
+      ).length > showedMovies && <MoreButton handleClick={handleMore} />}
       <Footer />
     </>
   );
