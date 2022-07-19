@@ -1,10 +1,15 @@
-import './Switch.css';
+import "./Switch.css";
 
-const Switch = ({ className }) => {
+const Switch = ({ isShortsIncluded, changeShortsIncluded }) => {
   return (
-    <span className='switch'>
-      <input type='checkbox' className='switch__input' defaultChecked />
-      <span className='switch__slider'></span>
+    <span className="switch">
+      <input
+        type="checkbox"
+        className="switch__input"
+        checked={isShortsIncluded}
+        onChange={changeShortsIncluded}
+      />
+      <span className="switch__slider"></span>
     </span>
   );
 };

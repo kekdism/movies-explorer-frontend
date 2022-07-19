@@ -1,26 +1,40 @@
-import FindIconButton from '../Icons/FindIconButton';
-import MagnifierIcon from '../Icons/MagnifierIcon';
-import Switch from '../Switch/Switch';
-import './SearchBar.css';
+import FindIconButton from "../Icons/FindIconButton";
+import MagnifierIcon from "../Icons/MagnifierIcon";
+import Switch from "../Switch/Switch";
+import "./SearchBar.css";
 
-const SearchBar = () => {
+const SearchBar = ({
+  searchText,
+  isShortsIncluded,
+  changeSearchText,
+  changeShortsIncluded,
+  onSearch,
+}) => {
   return (
-    <section className='search'>
-      <div className='search__box'>
-        <div className='search__bar'>
-          <div className='search__icon'>
+    <section className="search">
+      <form className="search__box" onSubmit={onSearch}>
+        <div className="search__bar">
+          <div className="search__icon">
             <MagnifierIcon />
           </div>
-          <input className='search__input' placeholder='Фильм' />
-          <button className='search__find'>
+          <input
+            className="search__input"
+            placeholder="Фильм"
+            value={searchText}
+            onChange={changeSearchText}
+          />
+          <button className="search__find" type="submit">
             <FindIconButton />
           </button>
         </div>
-        <label className='search__filter'>
-          <Switch />
+        <label className="search__filter">
+          <Switch
+            isShortsIncluded={isShortsIncluded}
+            changeShortsIncluded={changeShortsIncluded}
+          />
           Короткометражки
         </label>
-      </div>
+      </form>
     </section>
   );
 };

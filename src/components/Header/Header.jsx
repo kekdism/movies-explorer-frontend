@@ -1,27 +1,30 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import AccountInfoLink from '../AccountInfoLink/AccountInfoLink';
-import LogoIcon from '../Icons/LogoIcon';
-import SideMenu from '../SideMenu/SideMenu';
-import './Header.css';
+import { useContext } from "react";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../utils/contexts";
+import AccountInfoLink from "../AccountInfoLink/AccountInfoLink";
+import LogoIcon from "../Icons/LogoIcon";
+import SideMenu from "../SideMenu/SideMenu";
+import "./Header.css";
 
-const Header = ({ isLogged = true }) => {
+const Header = () => {
+  const { currentUser } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <header className='header'>
-      <Link to='/'>
-        <LogoIcon color='var(--accent-color)' />
+    <header className="header">
+      <Link to="/">
+        <LogoIcon color="var(--accent-color)" />
       </Link>
 
-      {isLogged && (
+      {currentUser?._id && (
         <>
-          <nav className='header__logged'>
-            <ul className='header__nav'>
+          <nav className="header__logged">
+            <ul className="header__nav">
               <li>
                 <NavLink
-                  to='/movies'
+                  to="/movies"
                   className={({ isActive }) =>
-                    `header__link ${isActive && 'header__link_active'}`
+                    `header__link ${isActive && "header__link_active"}`
                   }
                 >
                   Фильмы
@@ -29,9 +32,9 @@ const Header = ({ isLogged = true }) => {
               </li>
               <li>
                 <NavLink
-                  to='/saved-movies'
+                  to="/saved-movies"
                   className={({ isActive }) =>
-                    `header__link ${isActive && 'header__link_active'}`
+                    `header__link ${isActive && "header__link_active"}`
                   }
                 >
                   Сохранённые фильмы
@@ -41,7 +44,7 @@ const Header = ({ isLogged = true }) => {
             <AccountInfoLink />
           </nav>
           <button
-            className='header__menu-button'
+            className="header__menu-button"
             onClick={() => setIsMenuOpen((s) => !s)}
           ></button>
           <SideMenu
@@ -50,16 +53,16 @@ const Header = ({ isLogged = true }) => {
           />
         </>
       )}
-      {!isLogged && (
-        <nav className='header__unlogged'>
-          <ul className='header__auth'>
+      {!currentUser?._id && (
+        <nav className="header__unlogged">
+          <ul className="header__auth">
             <li>
-              <Link to='/signup' className='header__signup'>
+              <Link to="/signup" className="header__signup">
                 Регистрация
               </Link>
             </li>
             <li>
-              <Link to='/signin' className='header__signin'>
+              <Link to="/signin" className="header__signin">
                 Войти
               </Link>
             </li>

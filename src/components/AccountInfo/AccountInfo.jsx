@@ -1,44 +1,94 @@
-import { useState } from 'react';
-import './AccountInfo.css';
+import { useEffect } from "react";
+import { useContext } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../utils/contexts";
+import { useFormWithValidation } from "../../utils/hooks/useFormWithValidation";
+import MainApi from "../../utils/MainApi";
+import "./AccountInfo.css";
 
 const AccountInfo = () => {
+  const navigate = useNavigate();
+
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+  const { values, setValues, handleChange, isValid } = useFormWithValidation();
+  const isSame =
+    values?.name === currentUser?.name && values?.email === currentUser?.email;
   const [isEditing, setIsEditing] = useState(false);
+  const [apiError, setApiError] = useState("");
+
+  useEffect(() => {
+    const { name, email } = currentUser;
+    setValues({ name, email });
+  }, [currentUser, setValues]);
+
+  const handleUserInfoUpdate = async () => {
+    try {
+      const res = await MainApi.updateUser(values, currentUser.token);
+      setCurrentUser((user) => {
+        return { ...user, ...res };
+      });
+      setIsEditing(false);
+    } catch (err) {
+      const { message } = err;
+      setApiError(message);
+      console.log(err);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("lastSearch");
+    setCurrentUser({});
+    navigate("/");
+  };
+
   return (
-    <section className='account-info'>
-      <h2 className='account-info__hello'>Привет, Виталий!</h2>
-      <ul className='account-info__fields'>
-        <li className='account-info__field'>
-          <p className='account-info__key'>Имя</p>
-          <input
-            type='text'
-            className='account-info__value'
-            defaultValue='Виталий'
-            disabled={!isEditing}
-          />
-        </li>
-        <li className='account-info__field'>
-          <p className='account-info__key'>E-mail</p>
-          <input
-            type='email'
-            className='account-info__value'
-            defaultValue='pochta@yandex.ru'
-            disabled={!isEditing}
-          />
-        </li>
-      </ul>
-      <div className='account-info__buttons'>
+    <section className="account-info">
+      <h2 className="account-info__hello">{`Привет, ${currentUser?.name}!`}</h2>
+      <form>
+        <ul className="account-info__fields">
+          <li className="account-info__field">
+            <p className="account-info__key">Имя</p>
+            <input
+              type="text"
+              name="name"
+              required
+              pattern="[A-Za-zА-Яа-я -]{2,30}"
+              value={values?.name || ""}
+              onChange={handleChange}
+              className="account-info__value"
+              disabled={!isEditing}
+            />
+          </li>
+          <li className="account-info__field">
+            <p className="account-info__key">E-mail</p>
+            <input
+              className="account-info__value"
+              name="email"
+              type="email"
+              required
+              value={values?.email || ""}
+              onChange={handleChange}
+              disabled={!isEditing}
+            />
+          </li>
+        </ul>
+      </form>
+      <div className="account-info__buttons">
         {!isEditing && (
           <>
             <button
-              type='button'
-              className='account-info__button'
-              onClick={() => setIsEditing((s) => !s)}
+              type="button"
+              className="account-info__button"
+              onClick={() => setIsEditing(true)}
             >
               Редактировать
             </button>
             <button
-              type='button'
-              className='account-info__button account-info__button_type_logout'
+              type="button"
+              className="account-info__button account-info__button_type_logout"
+              onClick={handleLogout}
             >
               Выйти из аккаунта
             </button>
@@ -46,13 +96,14 @@ const AccountInfo = () => {
         )}
         {isEditing && (
           <>
-            <p className='account-info__input-error'>
-              При обновлении профиля произошла ошибка.
-            </p>
+            {apiError && (
+              <p className="account-info__input-error">{apiError}</p>
+            )}
             <button
-              type='button'
-              className='account-info__button account-info__button_type_save'
-              onClick={() => setIsEditing((s) => !s)}
+              type="button"
+              className="account-info__button account-info__button_type_save"
+              disabled={!(isValid && !isSame)}
+              onClick={handleUserInfoUpdate}
             >
               Сохранить
             </button>
