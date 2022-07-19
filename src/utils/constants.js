@@ -7,7 +7,7 @@ export const SHORTS_DURATION = 40;
 export const formatDuration = (minutes) => {
   const hours = Math.trunc(minutes / 60);
   const min = minutes - hours * 60;
-  return `${hours && `${hours}ч `}${min}м`;
+  return `${hours !== 0 ? `${hours}ч ` : ''}${min}м`;
 };
 
 export const checkNames = (names, phrase) => {
