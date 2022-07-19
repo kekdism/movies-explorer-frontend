@@ -37,6 +37,7 @@ const AccountInfo = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("lastSearch");
     setCurrentUser({});
     navigate("/");
   };
