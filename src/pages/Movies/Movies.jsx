@@ -61,9 +61,8 @@ const MoviesPage = () => {
     setIsShortsIncluded((s) => !s);
   };
 
-  const handleSearch = async (e) => {
+  const handleSearch = async () => {
     try {
-      e.preventDefault();
       const movies = await MoviesApi.getMovies();
       const filteredMovies = movies.filter((movie) => {
         const { nameRU, nameEN, duration } = movie;
@@ -88,6 +87,11 @@ const MoviesPage = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleSearch();
+  }
+  
   const handleMovieSave = async (movie) => {
     try {
       const newSave = await MainApi.saveMovie(movie, currentUser.token);
