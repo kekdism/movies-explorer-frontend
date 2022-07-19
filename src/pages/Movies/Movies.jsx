@@ -57,8 +57,9 @@ const MoviesPage = () => {
     setSearchText(value);
   };
 
-  const handleShortsChange = () => {
+  const handleShortsChange =  async () => {
     setIsShortsIncluded((s) => !s);
+    await handleSearch();
   };
 
   const handleSearch = async () => {
